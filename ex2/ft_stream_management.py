@@ -1,34 +1,58 @@
 import sys
+from typing import IO, List
 
 
 def manage_streams() -> None:
-    print("CYBER ARCHIVES")
-    print("COMMUNICATION SYSTEM\n")
+    if len(sys.argv) != 2:
+        print("=== Cyber Archives Recovery & Preservation ===")
+        return
 
+    filename: str = sys.argv[1]
+    print("=== Cyber Archives Recovery & Preservation ===")
+    print(f"Accessing file '{filename}'")
+
+    f_in: IO = None
+    content: str = ""
     try:
-
-        sys.stdout.write("Input Stream active. Enter archivist ID: ")
-        sys.stdout.flush()
-        archivist_id: str = sys.stdin.readline().strip()
-
-        sys.stdout.write("Input Stream active. Enter status report: ")
-        sys.stdout.flush()
-        status: str = sys.stdin.readline().strip()
-
-        sys.stdout.write(
-            f"\nge[STANDARD] Archive status from {archivist_id}: {status}\n"
-        )
-
-        sys.stderr.write(
-            "[ALERT] System diagnostic: Communication channels verified\n"
-        )
-
-        sys.stdout.write("[STANDARD] Data transmission complete\n")
-        sys.stdout.write("\nThree-channel communication test successful.\n")
-    except EOFError:
-        print("\nERROR: Input stream interrupted.")
+        f_in = open(filename, 'r')
+        content = f_in.read()
+        sys.stdout.write(content)
     except Exception as e:
-        sys.stderr.write(f"[ALERT] Unexpected communication error: {e}\n")
+        sys.stderr.write(f"[STDERR] Error opening file '{filename}': {e}\n")
+        return
+    finally:
+        if f_in:
+            f_in.close()
+            print(f"File '{filename}' closed.")
+
+    print("Transform data:")
+    lines: List[str] = content.splitlines()
+    transformed: str = ""
+    for line in lines:
+        transformed += line + "#\n"
+    sys.stdout.write(transformed)
+
+    sys.stdout.write("Enter new file name (or empty): ")
+    sys.stdout.flush()
+    new_file: str = sys.stdin.readline().strip()
+
+    if new_file:
+        print(f"Saving data to '{new_file}'")
+        f_out: IO = None
+        try:
+            f_out = open(new_file, 'w')
+            f_out.write(transformed)
+            print(f"Data saved in file '{new_file}'.")
+        except Exception as e:
+            sys.stderr.write(
+                f"[STDERR] Error opening file '{new_file}': {e}\n "
+                "Data not saved.\n"
+            )
+        finally:
+            if f_out:
+                f_out.close()
+    else:
+        print("Not saving data.")
 
 
 if __name__ == "__main__":
