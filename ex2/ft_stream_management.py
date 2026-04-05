@@ -60,7 +60,4 @@ def manage_streams() -> None:
 
 
 if __name__ == "__main__":
-    try:
-        manage_streams()
-    except BaseException as e:
-        print(e)
+    manage_streams()

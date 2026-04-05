@@ -42,7 +42,5 @@ def recover_text() -> None:
 
 
 if __name__ == "__main__":
-    try:
-        recover_text()
-    except BaseException as e:
-        print(e)
+
+    recover_text()

@@ -57,7 +57,5 @@ def create_archive() -> None:
 
 
 if __name__ == "__main__":
-    try:
-        create_archive()
-    except BaseException as e:
-        print(e)
+    create_archive()
+
