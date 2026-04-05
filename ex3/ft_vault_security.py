@@ -1,9 +1,6 @@
-from typing import Tuple
-
-
 def secure_archive(
         filename: str, action: str = 'read', content: str = ''
-        ) -> Tuple[bool, str]:
+        ) -> tuple[bool, str]:
     """Provides safe access to files using context managers."""
     try:
         if action == 'read':
